@@ -7,22 +7,26 @@ fi
 
 PHP_VER=`cat php-version`
 
-case $PHP_VER in
-5.4|5.5|5.6)
-	PHP_SO=php5
-	PHP_C=php_embed.c.5
-  ;;
-*)
-	PHP_SO=php7
-	PHP_C=php_embed.c.7
-	echo "FATAL: Under development" 
-	exit 1
-  ;;
-esac
+#case $PHP_VER in
+#7.4)
+#	PHP_SO=php7
+#	PHP_C=php_embed.c.7
+#  ;;
+#*)
+#	PHP_SO=php8
+#	PHP_C=php_embed.c.8
+#	echo "FATAL: Under development"
+#	exit 1
+#  ;;
+#esac
+
+PHP_SO=php_embed.o
+PHP_C=php_embed.c
+
+cp php-srcs/*/sapi/embed/php_* .
 
 PWD=`pwd`
 
 sed "s/%PHP.SO%/${PHP_SO}/" php_embed.go.template | sed "s\\%PWD%\\${PWD}\\g" > php-embed.go
-cp php_embed.c.5 php-embed.c
 
 exit 0
